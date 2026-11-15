@@ -30,11 +30,11 @@ public class IntelligentModClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		// Prawy Shift = ekran "o modzie" (zmienisz w Sterowaniu)
 		infoKey = KeyMappingHelper.registerKeyMapping(new KeyMapping(
-				"key.intelligent_mod.info", InputConstants.Type.KEYSYM, InputConstants.KEY_RSHIFT,
+				"key.intelligent_mod.info", InputConstants.Type.KEYSYM, 344 /* GLFW_KEY_RIGHT_SHIFT */,
 				KeyMapping.Category.register(IntelligentMod.id("main"))));
 		ClientTickEvents.END_CLIENT_TICK.register(mc -> {
 			while (infoKey.consumeClick()) {
-				if (mc.screen == null) mc.setScreenAndShow(new InfoScreen());
+				openScreen(mc, new InfoScreen());
 			}
 		});
 
@@ -54,9 +54,20 @@ public class IntelligentModClient implements ClientModInitializer {
 		});
 	}
 
+	/** Nazwa metody zmieniała się między wersjami (setScreen / setScreenAndShow) - bierzemy tę, która istnieje. */
+	private static void openScreen(Minecraft mc, net.minecraft.client.gui.screens.Screen screen) {
+		for (String name : new String[] {"setScreenAndShow", "setScreen"}) {
+			try {
+				Minecraft.class.getMethod(name, net.minecraft.client.gui.screens.Screen.class).invoke(mc, screen);
+				return;
+			} catch (ReflectiveOperationException ignored) {
+			}
+		}
+	}
+
 	private static void renderHud(GuiGraphicsExtractor g, DeltaTracker tracker) {
 		Minecraft mc = Minecraft.getInstance();
-		if (mc.player == null || mc.options.hideGui) return;
+		if (mc.player == null) return;
 		int w = mc.getWindow().getGuiScaledWidth();
 		int h = mc.getWindow().getGuiScaledHeight();
 

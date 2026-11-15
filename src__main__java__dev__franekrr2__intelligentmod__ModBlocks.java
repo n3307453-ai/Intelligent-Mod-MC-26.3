@@ -23,7 +23,7 @@ public final class ModBlocks {
 
 	public static final Block QUICKSAND = register("quicksand", QuicksandBlock::new,
 			BlockBehaviour.Properties.of().mapColor(MapColor.SAND).strength(0.5f).sound(SoundType.SAND)
-					.noOcclusion().isViewBlocking((s, l, p) -> false).isSuffocating((s, l, p) -> false));
+					.noOcclusion());
 
 	private static Block register(String name, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties props) {
 		ResourceKey<Block> blockKey = ResourceKey.create(Registries.BLOCK, IntelligentMod.id(name));

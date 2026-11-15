@@ -11,7 +11,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
@@ -28,6 +27,10 @@ import net.minecraft.world.level.chunk.LevelChunk;
 public final class HeatManager {
 	private HeatManager() {}
 
+	private static long key(int cx, int cz) { return ((long) cx << 32) | (cz & 0xFFFFFFFFL); }
+	private static int keyX(long k) { return (int) (k >> 32); }
+	private static int keyZ(long k) { return (int) k; }
+
 	private static final Map<ResourceKey<Level>, Map<Long, Float>> HEAT = new HashMap<>();
 	private static final Map<ResourceKey<Level>, List<BlockPos>> SOURCES = new HashMap<>();
 
@@ -39,7 +42,7 @@ public final class HeatManager {
 			int pcz = p.getBlockZ() >> 4;
 			for (int dx = -radius; dx <= radius; dx++) {
 				for (int dz = -radius; dz <= radius; dz++) {
-					chunks.add(ChunkPos.asLong(pcx + dx, pcz + dz));
+					chunks.add(key(pcx + dx, pcz + dz));
 				}
 			}
 		}
@@ -47,7 +50,7 @@ public final class HeatManager {
 		Map<Long, Float> direct = new HashMap<>();
 		List<BlockPos> sources = new ArrayList<>();
 		for (long c : chunks) {
-			LevelChunk chunk = level.getChunkSource().getChunkNow(ChunkPos.getX(c), ChunkPos.getZ(c));
+			LevelChunk chunk = level.getChunkSource().getChunkNow(keyX(c), keyZ(c));
 			if (chunk == null) continue;
 			float value = 0f;
 			for (BlockEntity be : chunk.getBlockEntities().values()) {
@@ -65,13 +68,13 @@ public final class HeatManager {
 
 		Map<Long, Float> total = new HashMap<>();
 		for (long c : chunks) {
-			int cx = ChunkPos.getX(c);
-			int cz = ChunkPos.getZ(c);
+			int cx = keyX(c);
+			int cz = keyZ(c);
 			float sum = direct.getOrDefault(c, 0f);
 			for (int dx = -1; dx <= 1; dx++) {
 				for (int dz = -1; dz <= 1; dz++) {
 					if (dx == 0 && dz == 0) continue;
-					sum += ModConfig.HEAT_NEIGHBOUR_FACTOR * direct.getOrDefault(ChunkPos.asLong(cx + dx, cz + dz), 0f);
+					sum += ModConfig.HEAT_NEIGHBOUR_FACTOR * direct.getOrDefault(key(cx + dx, cz + dz), 0f);
 				}
 			}
 			if (sum > 0.01f) total.put(c, sum);
@@ -82,7 +85,7 @@ public final class HeatManager {
 
 	public static float heatAt(ServerLevel level, BlockPos pos) {
 		Map<Long, Float> m = HEAT.get(level.dimension());
-		return m == null ? 0f : m.getOrDefault(ChunkPos.asLong(pos), 0f);
+		return m == null ? 0f : m.getOrDefault(key(pos.getX() >> 4, pos.getZ() >> 4), 0f);
 	}
 
 	public static List<BlockPos> litSources(ServerLevel level) {

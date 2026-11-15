@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.BlockTags;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
@@ -179,11 +179,17 @@ public final class WorldSimulation {
 
 	// ------------------------------------------------------------------ pożary
 
+	private static final String[] WOODS = {"oak", "spruce", "birch", "jungle", "acacia", "mangrove", "cherry", "pale_oak", "bamboo"};
+	private static final String[] WOOD_PARTS = {"_planks", "_log", "_wood", "_slab", "_stairs", "_fence", "_fence_gate", "_door", "_trapdoor"};
+
 	private static boolean isWooden(BlockState s) {
-		return s.is(BlockTags.PLANKS) || s.is(BlockTags.LOGS_THAT_BURN) || s.is(BlockTags.WOODEN_SLABS)
-				|| s.is(BlockTags.WOODEN_STAIRS) || s.is(BlockTags.WOODEN_FENCES) || s.is(BlockTags.WOODEN_DOORS)
-				|| s.is(BlockTags.WOODEN_TRAPDOORS) || s.is(Blocks.CHEST) || s.is(Blocks.BARREL)
-				|| s.is(Blocks.BOOKSHELF) || s.is(Blocks.CRAFTING_TABLE);
+		String path = BuiltInRegistries.BLOCK.getKey(s.getBlock()).getPath();
+		if (path.equals("chest") || path.equals("barrel") || path.equals("bookshelf") || path.equals("crafting_table")) return true;
+		boolean species = false;
+		for (String w : WOODS) if (path.contains(w)) { species = true; break; }
+		if (!species) return false;
+		for (String part : WOOD_PARTS) if (path.endsWith(part)) return true;
+		return false;
 	}
 
 	/** Gdy w chunku jest bardzo gorąco, drewno przy płonących piecach zaczyna się palić. */
