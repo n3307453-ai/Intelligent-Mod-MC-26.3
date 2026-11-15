@@ -1,0 +1,23 @@
+{
+  "block.intelligent_mod.dry_earth": "Sucha Ziemia",
+  "block.intelligent_mod.quicksand": "Ruchome Piaski",
+  "itemGroup.intelligent_mod": "Intelligent Mod",
+  "death.attack.dehydration": "%1$s zmarł(a) z pragnienia",
+  "message.intelligent_mod.thirsty": "Zaczyna ci chcieć się pić... znajdź wodę!",
+  "message.intelligent_mod.dying": "Umierasz z pragnienia!",
+  "hud.intelligent_mod.thirst": "Woda",
+  "menu.intelligent_mod.credits": "Made by FranekRR2 / Sagzamon",
+  "command.intelligent_mod.status": "Woda: %1$s/20 | Ciepło: %2$s | Temperatura: %3$s°C",
+  "key.intelligent_mod.info": "Info o modzie (Prawy Shift)",
+  "key.category.intelligent_mod.main": "Intelligent Mod",
+  "info.intelligent_mod.title": "Intelligent Mod",
+  "info.intelligent_mod.authors": "Made by FranekRR2 / Sagzamon",
+  "info.intelligent_mod.version": "Wersja 1.1.0 | Minecraft 26.3 | Fabric",
+  "info.intelligent_mod.features": "Co jest w modzie:",
+  "info.intelligent_mod.heat": "• Ciepło: płonące piece ogrzewają swój chunk",
+  "info.intelligent_mod.thirst": "• Pragnienie: pasek wody, picie PPM na wodzie; pusty pasek = śmierć",
+  "info.intelligent_mod.quicksand": "• Ruchome Piaski: spowalniają, wciągają i duszą (pustynie, plaże)",
+  "info.intelligent_mod.dry_earth": "• Sucha Ziemia: ciepło wysusza glebę; ratuje ją tylko woda lub deszcz",
+  "info.intelligent_mod.water": "• Woda: paruje w upale, deszcz napełnia jeziora, burze robią powodzie",
+  "info.intelligent_mod.fire": "• Ogień: drewno przy bardzo gorących piecach zaczyna się palić"
+}

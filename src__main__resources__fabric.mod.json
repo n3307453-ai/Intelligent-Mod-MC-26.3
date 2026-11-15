@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "intelligent_mod",
+  "version": "${version}",
+  "name": "Intelligent Mod",
+  "description": "Realistic survival: furnace heat, thirst, quicksand, dry earth, droughts, floods and wooden things catching fire.",
+  "authors": ["FranekRR2", "Sagzamon"],
+  "license": "MIT",
+  "icon": "assets/intelligent_mod/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.franekrr2.intelligentmod.IntelligentMod"],
+    "client": ["dev.franekrr2.intelligentmod.client.IntelligentModClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "block.intelligent_mod.dry_earth": "Dry Earth",
+  "block.intelligent_mod.quicksand": "Quicksand",
+  "itemGroup.intelligent_mod": "Intelligent Mod",
+  "death.attack.dehydration": "%1$s died of thirst",
+  "message.intelligent_mod.thirsty": "You are getting thirsty... find some water!",
+  "message.intelligent_mod.dying": "You are dying of thirst!",
+  "hud.intelligent_mod.thirst": "Water",
+  "menu.intelligent_mod.credits": "Made by FranekRR2 / Sagzamon",
+  "command.intelligent_mod.status": "Water: %1$s/20 | Heat: %2$s | Temperature: %3$s°C",
+  "key.intelligent_mod.info": "Mod info (Right Shift)",
+  "key.category.intelligent_mod.main": "Intelligent Mod",
+  "info.intelligent_mod.title": "Intelligent Mod",
+  "info.intelligent_mod.authors": "Made by FranekRR2 / Sagzamon",
+  "info.intelligent_mod.version": "Version 1.1.0 | Minecraft 26.3 | Fabric",
+  "info.intelligent_mod.features": "What's in the mod:",
+  "info.intelligent_mod.heat": "• Heat: burning furnaces warm up their chunk",
+  "info.intelligent_mod.thirst": "• Thirst: water bar, drink with right click on water; empty bar = death",
+  "info.intelligent_mod.quicksand": "• Quicksand: slows, pulls you in and suffocates (deserts, beaches)",
+  "info.intelligent_mod.dry_earth": "• Dry Earth: heat dries soil; only water or rain restores it",
+  "info.intelligent_mod.water": "• Water: evaporates in heat, rain refills lakes, storms cause floods",
+  "info.intelligent_mod.fire": "• Fire: wooden things near very hot furnaces catch fire"
+}

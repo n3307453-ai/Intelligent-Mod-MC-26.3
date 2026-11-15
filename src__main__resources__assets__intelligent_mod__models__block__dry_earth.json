@@ -1,0 +1,1 @@
+{ "parent": "minecraft:block/cube_all", "textures": { "all": "intelligent_mod:block/dry_earth" } }
