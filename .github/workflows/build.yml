@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: '3.x'
 
-      # Jeśli repo ma płaskie pliki (bez folderów), odtwórz strukturę
+      # Repo płaskie (bez folderów)? Odtwórz strukturę. Zwykłe repo? Buduj od razu.
       - name: Restore folders
         run: |
           if [ -f build.gradle ] && [ -d src ]; then
@@ -41,15 +41,36 @@ jobs:
 
       - name: Build
         working-directory: ${{ env.PROJECT_DIR }}
-        run: gradle build
+        run: |
+          set -o pipefail
+          gradle build --console=plain 2>&1 | tee "$GITHUB_WORKSPACE/build.log"
 
-      - uses: actions/upload-artifact@v4
+      # Zawsze (też przy błędzie): wypisz błędy kompilacji w podsumowaniu biegu
+      - name: Error summary
+        if: failure()
+        run: |
+          {
+            echo "## Błędy kompilacji"
+            echo '```'
+            grep -B1 -A4 -E "error:|What went wrong" build.log | head -150 || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
+          if-no-files-found: ignore
+
+      - name: Upload mod jar
+        uses: actions/upload-artifact@v4
         with:
           name: intelligent-mod
           path: ${{ env.PROJECT_DIR }}/build/libs/*.jar
 
-      # Po wrzuceniu taga np. v1.1.0 jar trafia do zakładki Releases
-      - name: Release
+      - name: Release (tag v*)
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
